@@ -9,9 +9,10 @@ import * as S from './styles'
 interface TableModal {
   visible: boolean
   onClickClose: () => void
+  onSubmit: (table: string) => void
 }
 
-export function TableModal({ visible, onClickClose }: TableModal) {
+export function TableModal({ visible, onClickClose, onSubmit }: TableModal) {
   const [table, setTable] = useState('')
 
   return (
@@ -30,7 +31,11 @@ export function TableModal({ visible, onClickClose }: TableModal) {
               onChangeText={setTable}
             />
           </S.Form>
-          <Button label="Salvar" onPress={() => alert(`Mesa ${table}`)} disabled={!table} />
+          <Button
+            label="Salvar"
+            disabled={!table}
+            onPress={() => onSubmit(table)}
+          />
         </S.ModalBody>
       </S.Overlay>
     </Modal>

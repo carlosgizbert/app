@@ -26,7 +26,7 @@ export default function Main() {
           <Button label="Novo pedido" onPress={() => setShowModal(true)} />
         </S.FooterContainer>
       </S.Footer>
-      <TableModal visible={showModal} onClickClose={() => setShowModal(false)} />
+      <TableModal visible={showModal} onClickClose={() => setShowModal(false)} onSubmit={alert} />
     </>
   )
 }
