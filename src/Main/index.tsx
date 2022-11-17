@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Button from '../components/Button'
 import { Categories } from '../components/Categories'
 import { Header } from '../components/Header'
 import { Menu } from '../components/Menu'
+import { TableModal } from '../components/TableModal'
 
 import * as S from './styles'
 
 export default function Main() {
+  const [showModal, setShowModal] = useState<boolean>(false)
+
   return (
     <>
       <S.Container>
@@ -19,8 +23,10 @@ export default function Main() {
       </S.Container>
       <S.Footer>
         <S.FooterContainer>
+          <Button label="Novo pedido" onPress={() => setShowModal(true)} />
         </S.FooterContainer>
       </S.Footer>
+      <TableModal visible={showModal} onClickClose={() => setShowModal(false)} />
     </>
   )
 }
