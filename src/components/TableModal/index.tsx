@@ -15,6 +15,12 @@ interface TableModal {
 export function TableModal({ visible, onClickClose, onSubmit }: TableModal) {
   const [table, setTable] = useState('')
 
+  const handleSave = () => {
+    setTable('')
+    onSubmit(table)
+    onClickClose()
+  }
+
   return (
     <Modal visible={visible} animationType="fade" transparent>
       <S.Overlay behavior={Platform.OS === 'android' ? 'height' : 'padding'} >
@@ -34,7 +40,7 @@ export function TableModal({ visible, onClickClose, onSubmit }: TableModal) {
           <Button
             label="Salvar"
             disabled={!table}
-            onPress={() => onSubmit(table)}
+            onPress={() => handleSave()}
           />
         </S.ModalBody>
       </S.Overlay>

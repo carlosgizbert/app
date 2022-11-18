@@ -17,7 +17,7 @@ export const products = [
         '_id':'63741103f30ea710fb9e972a'
       },
       {
-        'name':'Gorgonzola',
+        'name':'Fim da lista',
         'icon':'🧀',
         '_id':'63741103f30ea710fb9e972b'
       }

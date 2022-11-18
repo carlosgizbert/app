@@ -26,5 +26,11 @@ export const Footer = styled.View`
   background-color: #fff;
 `
 
+export const CenteredContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`
+
 export const FooterContainer = styled.SafeAreaView`
 `
