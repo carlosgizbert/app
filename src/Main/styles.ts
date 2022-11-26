@@ -15,9 +15,7 @@ export const CategoriesContainer = styled.View`
   margin-top: 34px;
 `
 
-export const MenuContainer = styled.View`
-  flex: 1;
-`
+
 
 export const Footer = styled.View`
   min-height: 110px;
@@ -27,7 +25,7 @@ export const Footer = styled.View`
 `
 
 export const CenteredContainer = styled.View`
-  flex: 1;
+  flex: 100;
   align-items: center;
   justify-content: center;
 `

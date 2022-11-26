@@ -13,7 +13,7 @@ import * as S from './styles'
 
 interface Menu {
   onClickAddToCart: (product: Product) => void
-  products: Product[]
+  products: null | Product[]
 }
 
 export function Menu({ onClickAddToCart, products }: Menu) {
@@ -26,7 +26,7 @@ export function Menu({ onClickAddToCart, products }: Menu) {
   }
 
   return (
-    <>
+    <S.View>
       <FlatList
         data={products}
         keyExtractor={product => product._id}
@@ -54,6 +54,6 @@ export function Menu({ onClickAddToCart, products }: Menu) {
           )
         } } />
       <ProductModal visible={showModal} onClickClose={() => setShowModal(false)} product={selectedProduct} onClickAddToCart={onClickAddToCart} />
-    </>
+    </S.View>
   )
 }

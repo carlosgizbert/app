@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Modal, TouchableOpacity, Platform } from 'react-native'
-import Button from '../Button'
+import { Button } from '../Button'
 import { Close } from '../Icons/Close'
 import { Text } from '../Text'
 
@@ -16,8 +16,8 @@ export function TableModal({ visible, onClickClose, onSubmit }: TableModal) {
   const [table, setTable] = useState('')
 
   const handleSave = () => {
-    setTable('')
     onSubmit(table)
+    setTable('')
     onClickClose()
   }
 

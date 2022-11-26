@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { StatusBar } from 'expo-status-bar'
 
-import Button from '../components/Button'
+import { Button } from '../components/Button'
 import { Cart } from '../components/Cart'
 import { Categories } from '../components/Categories'
 import { Header } from '../components/Header'
@@ -10,26 +10,26 @@ import { Menu } from '../components/Menu'
 import { TableModal } from '../components/TableModal'
 import { CartItem } from '../types/CartItem'
 
-import { products as mockProducts } from '../mocks/products'
-
-import { Product } from '../types/Product'
 import { Empty } from '../components/Icons/Empty'
 import { Text } from '../components/Text'
+
+import { Product } from '../types/Product'
+import { Category } from '../types/Category'
+
+import { useGetCategories, useGetProductsByCategory } from '../service'
 
 import * as S from './styles'
 
 export default function Main() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [selectedTable, setSelectedTable] = useState('')
-  const [products, setProducts] = useState<Product[]>(mockProducts)
-  const [cartItems, setCartIems] = useState<CartItem[]>([{
-    quantity: 1,
-    product: mockProducts[0]
-  },
-  {
-    quantity: 2,
-    product: mockProducts[7]
-  }])
+  const [cartItems, setCartIems] = useState<CartItem[]>([])
+  const [products, setProducts] = useState<null | Product[]>()
+  const [categories, setCategories] = useState<null | Category[]>()
+  const [currentCategory, setCurrentCategory] = useState<string>('')
+
+  const { data: getCategories, isLoading: getCategoriesLoading } = useGetCategories()
+  const { data: getProducts, isLoading: getProductsLoading, refetch: refetchProductsByCategory } = useGetProductsByCategory(currentCategory)
 
   const handleSubmitTable = (tableId: string) => {
     setSelectedTable(tableId)
@@ -90,24 +90,51 @@ export default function Main() {
     setCartIems([])
   }
 
+  const renderCategories = (categories: Category[]) => {
+    return (
+      <S.CategoriesContainer>
+        <Categories categories={categories} onSelectCategory={setCurrentCategory} />
+      </S.CategoriesContainer>
+    )
+  }
+
+  const renderLoadingList = () => {
+    return (
+      <Text>Carregando</Text>
+    )
+  }
+
+  const renderEmptyProducts = () => {
+    return (
+      <S.CenteredContainer>
+        <Empty />
+        <Text color='#667' style={{ marginTop: 24 }}>Nenhum produto encontrado</Text>
+      </S.CenteredContainer>
+    )
+  }
+
+  useEffect(() => {
+    if (getCategories) setCategories(getCategories)
+  }, [getCategories])
+
+  useEffect(() => {
+    if (getProducts) setProducts(getProducts)
+  }, [getProducts])
+
+  useEffect(() => {
+    refetchProductsByCategory()
+  }, [currentCategory])
+
   return (
     <>
       <StatusBar style="dark" />
       <S.Container>
         <Header selectedTable={selectedTable} onClickCancel={handleResetOrder} />
-        <S.CategoriesContainer>
-          <Categories />
-        </S.CategoriesContainer>
-        {products.length > 0 ? (
-          <S.MenuContainer>
-            <Menu products={products} onClickAddToCart={handleAddToCart} />
-          </S.MenuContainer>
-        ) : (
-          <S.CenteredContainer>
-            <Empty />
-            <Text color='#667' style={{ marginTop: 24 }}>Nenhum produto encontrado</Text>
-          </S.CenteredContainer>
-        )}
+        {!getCategoriesLoading && !!categories && renderCategories(categories)}
+        {getProductsLoading && renderLoadingList()}
+        {!getProductsLoading && !!products &&
+        <Menu products={products} onClickAddToCart={handleAddToCart} />}
+        {!getProductsLoading && products?.length === 0 && renderEmptyProducts()}
       </S.Container>
       <S.Footer>
         {!selectedTable && (
@@ -121,6 +148,7 @@ export default function Main() {
             onAdd={handleAddToCart}
             onDecrement={handleDecrementCartItem}
             onConfirmOrder={handleResetOrder}
+            selectedTable={selectedTable}
           />
         )}
       </S.Footer>

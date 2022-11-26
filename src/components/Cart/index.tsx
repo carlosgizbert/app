@@ -1,13 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
 import { CartItem } from '../../types/CartItem'
 import { formatCurrency } from '../../utils/formatCurrency'
 import { MinusCircle } from '../Icons/MinusCircle'
 import { PlusCircle } from '../Icons/PlusCircle'
 import { Text } from '../Text'
-import Button from '../Button'
+import { Button } from '../Button'
 import { Product } from '../../types/Product'
 import { OrderConfirmedModal } from '../OrderConfirmedModal'
+
+import { useCreateOrder } from '../../service'
+import { Order } from '../../types/Order'
 
 import * as S from './styles'
 
@@ -16,23 +19,40 @@ interface Cart {
   onAdd: (product: Product) => void
   onDecrement: (product: Product) => void
   onConfirmOrder: () => void
+  selectedTable: string
 }
 
-export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder }: Cart) {
+export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTable }: Cart) {
   const [showModal, setShowModal] = useState<boolean>(false)
+
+  const { mutate: createOrder, isSuccess: createOrderSuccess } = useCreateOrder({
+    onSuccess: () => console.log('success'),
+    onError: () => console.log('error')
+  })
 
   const total = cartItems.reduce((acc, cartItem) => {
     return acc = cartItem.quantity * cartItem.product.price
   }, 0)
 
   const handleConfirmOrder = () => {
-    setShowModal(true)
+    const payload: Order = {
+      table: Number(selectedTable),
+      products: cartItems.map((cartItem) => ({
+        product: cartItem.product._id,
+        quantity: cartItem.quantity
+      }))
+    }
+    createOrder(payload)
   }
 
   const handleOk = () => {
     onConfirmOrder()
     setShowModal(false)
   }
+
+  useEffect(() => {
+    if (createOrderSuccess) setShowModal(true)
+  }, [createOrderSuccess])
 
   return (
     <>

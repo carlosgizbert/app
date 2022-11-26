@@ -2,7 +2,7 @@ import { FlatList, Modal } from 'react-native'
 import { Product } from '../../types/Product'
 import { Close } from '../Icons/Close'
 import { Text } from '../Text'
-import Button from '../Button'
+import { Button } from '../Button'
 
 import { formatCurrency } from '../../utils/formatCurrency'
 
