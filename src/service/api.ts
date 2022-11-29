@@ -4,25 +4,11 @@ import { Order } from '../types/Order'
 import { Product } from '../types/Product'
 
 export const api = axios.create({
-  baseURL: 'http://192.168.15.12:3001',
+  baseURL: 'http://18.231.110.184:3001',
 })
-
-export async function createCategory(category: Category) {
-  const response = await api.post<Category>('/categories')
-  const { data } = response
-
-  return data
-}
 
 export async function getCategories() {
   const response = await api.get<Category[]>('/categories')
-  const { data } = response
-
-  return data
-}
-
-export async function createProduct(product: Product) {
-  const response = await api.post<Product>('/products')
   const { data } = response
 
   return data
