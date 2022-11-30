@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query'
 import { AxiosError } from 'axios'
-import { createCategory, createOrder, createProduct, getCategories, getProductsByCategory } from './api'
+import { createOrder, getCategories, getProductsByCategory } from './api'
 
 import { Product } from '../types/Product'
 import { Category } from '../types/Category'

@@ -4,7 +4,7 @@ import { Order } from '../types/Order'
 import { Product } from '../types/Product'
 
 export const api = axios.create({
-  baseURL: 'http://18.231.110.184:3001',
+  baseURL: 'http://54.94.46.47',
 })
 
 export async function getCategories() {
