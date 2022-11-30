@@ -28,3 +28,11 @@ export async function createOrder(order: Order) {
 
   return data
 }
+
+export async function createProduct(product: Product) {
+  return null
+}
+
+export async function createCategory(category: Category) {
+  return null
+}
