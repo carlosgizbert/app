@@ -38,7 +38,7 @@ export function Menu({ onClickAddToCart, products }: Menu) {
             <S.Product onPress={() => handleOpenModal(product)}>
               <S.ProductImage
                 source={{
-                  uri: `http://192.168.15.12:3001/uploads/${product.imagePath}`
+                  uri: `http://54.94.46.47:3000/uploads/${product.imagePath}`
                 }} />
               <S.ProductDetails>
                 <Text weight='600'>{product.name}</Text>
